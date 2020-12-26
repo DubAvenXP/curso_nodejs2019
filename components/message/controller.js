@@ -1,4 +1,4 @@
-
+const store = require('./store')
 
 function addMessage(user, message) {
     // añadir al user a la db
@@ -8,9 +8,6 @@ function addMessage(user, message) {
         if (!user || !message) {
             console.error('[messageController] no hay usuario o mensaje');
             return reject('Los datos son incorrectos...');
-        } else {
-            
-            
         }
 
         const fullMessage = {
@@ -18,14 +15,22 @@ function addMessage(user, message) {
                 message: message,
                 date: new Date(),
             };
-            
-        console.log(fullMessage);
+
+        store.add(fullMessage);
+
         
         resolve(fullMessage);
     })
 
 }
 
+function getMessages() {
+    return new Promise((resolve, reject) => {
+        resolve(store.list());
+    })
+}
+
 module.exports = {
     addMessage,
+    getMessages
 }

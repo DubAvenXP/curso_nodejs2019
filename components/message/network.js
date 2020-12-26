@@ -3,13 +3,14 @@ const router = express.Router();
 const response = require('../../network/response');
 const controller = require('./controller')
 
-router.get('/', (req, res) => {
-    console.log(req.query);
-    if (req.query.error == "ok") {
-        response.error(req, res, 'Error inseperado', 500, 'Simulacion de los errores')
-    } else {
-        response.success(req, res, 'lista de mensajes');
+router.get('/', async (req, res) => {
+    try {
+        const messageList = await controller.getMessages()
+        response.success(req, res, messageList, 200);
+    } catch (error) {
+        response.error(req, res, 'Unexpected error', 500, error)
     }
+
 });
 
 router.put('/', (req, res) => {
