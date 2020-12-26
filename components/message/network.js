@@ -18,14 +18,17 @@ router.put('/', (req, res) => {
 
 
 
-router.post('/', (req, res) => {
-    controller.addMessage(req.body.user, req.body.message)
-    .then((fullMessage) => {
-        response.success(req, res, 'Creado correctamente', 201);
-    })
-    .catch((err) => {
-        response.error(req, res, 'Informacion invalida', 400, 'Error en el controlador')
-    });
+router.post('/', async (req, res) => {
+    try {
+        
+        const body = await controller.addMessage(req.body.user, req.body.message);
+        response.success(req, res, 'Mensaje creado correctamente', 201);
+
+    } catch (error) {
+        
+        response.error(req, res, 'Informacion invalida', 400, 'Error en el post de controller' )
+
+    }
 });
 
 
