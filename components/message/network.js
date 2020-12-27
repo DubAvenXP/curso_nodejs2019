@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const response = require('../../network/response');
-const controller = require('./controller')
+const controller = require('./controller');
 
 router.get('/', async (req, res) => {
     const filterMessages = req.query.user || null;
@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
 
     } catch (error) {
         
-        response.error(req, res, 'Informacion invalida', 400, 'Error en el post de controller' );
+        response.error(req, res, 'Informacion invalida', 400, 'Error en el post de controllerMessage' );
 
     }
 });
