@@ -1,7 +1,20 @@
 const express = require('express');
+const multer = require('multer');
 const router = express.Router();
 const response = require('../../network/response');
 const controller = require('./controller');
+
+//Para guardar imagenes
+//options del storage
+const storage = multer.diskStorage({
+    destination: 'uploads/',
+    filename: (req, file, cb) => {
+        const [name, extension] = file.originalname.split('.');
+        cb(null, `${name}-${Date.now()}.${extension}`);
+    }
+});
+
+const upload = multer({storage: storage})
 
 router.get('/', async (req, res) => {
     const filterMessages = req.query.user || null;
@@ -28,11 +41,11 @@ router.patch('/:id', async (req, res) => {
 
 });
 
-
-router.post('/', async (req, res) => {
+// para trabajar imagenes solo se necesita usar un midleware de express
+router.post('/', upload.single('file'), async (req, res) => {
     try {
         
-        const body = await controller.addMessage(req.body.user, req.body.message);
+        const body = await controller.addMessage(req.body.chat, req.body.user, req.body.message);
         response.success(req, res, 'Mensaje creado correctamente', 201);
 
     } catch (error) {

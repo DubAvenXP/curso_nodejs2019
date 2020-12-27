@@ -1,7 +1,7 @@
 const e = require('express');
 const store = require('./store');
 
-function addMessage(user, message) {
+function addMessage(chat, user, message) {
     // añadir al user a la db
 
     return new Promise((resolve, reject) => {
@@ -11,6 +11,7 @@ function addMessage(user, message) {
         }
 
         const fullMessage = {
+            chat: chat,
             user: user,
             message: message,
             date: new Date(),
