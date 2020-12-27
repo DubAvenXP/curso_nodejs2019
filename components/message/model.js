@@ -3,7 +3,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const mySchema = new Schema({
-    user: String,
+    user: {
+        type: Schema.ObjectId,
+        //nombre de la collection
+        ref: 'users',
+    },
     message: {
         type: String,
         required: true,
